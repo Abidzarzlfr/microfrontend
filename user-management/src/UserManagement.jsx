@@ -3,7 +3,10 @@ import "./UserManagement.css";
 import { Table } from "./components/Table.jsx";
 import { Modal } from "./components/Modal.jsx";
 import Pagination from "./components/Pagination.jsx";
-import data from './Assets/data';
+import data from "./Assets/data";
+
+// Integration map
+const ViewPeta = React.lazy(() => import("map/ViewPeta"));
 
 function UserManagement() {
   const [searchInput, setSearchInput] = useState("");
@@ -12,14 +15,22 @@ function UserManagement() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 5;
 
-  // integration map
-  const ViewPeta = React.lazy(() => import("map/ViewPeta"));
+  // Integration Map
+  const [showMap, setShowMap] = useState(false);
 
+  const openMap = () => {
+    console.log("clicked");
+    if (showMap) {
+      setShowMap(false);
+    } else {
+      setShowMap(true);
+    }
+  };
   //
   const handleSearchChange = (e) => {
     const inputValue = e.target.value.toLowerCase();
     setSearchInput(inputValue);
-    
+
     const filtered = rows.filter((row) =>
       row.name.toLowerCase().includes(inputValue)
     );
@@ -55,7 +66,9 @@ function UserManagement() {
     if (rowToEdit === null) {
       setRows([...rows, newRow]);
     } else {
-      const updatedRows = rows.map((currRow, idx) => (idx !== rowToEdit ? currRow : newRow));
+      const updatedRows = rows.map((currRow, idx) =>
+        idx !== rowToEdit ? currRow : newRow
+      );
       setRows(updatedRows);
       updateVisibleRowsAndPages(updatedRows);
     }
@@ -71,51 +84,65 @@ function UserManagement() {
 
   return (
     <div className="w-full h-full">
-      <div className="absolute right-0 top-0 mt-5 mr-5 space-y-2">
-         <button className="bg-blue-800 text-white p-2 rounded m-1 mr-1">Map</button>
+      {!showMap ? (
+        <div>
+          <div className="absolute right-0 top-0 mt-5 mr-5 space-y-2">
+            <button
+              onClick={openMap}
+              className="bg-blue-800 text-white p-2 rounded m-1 mr-1"
+            >
+              Map
+            </button>
+          </div>
+          <div className="UserManagement">
+            {/* Search Bar */}
+            <div className="search-container">
+              <input
+                type="text"
+                className="search-input"
+                placeholder="Cari berdasarkan nama..."
+                value={searchInput}
+                onChange={handleSearchChange}
+              />
+            </div>
+            {/* Table */}
+            <Table
+              rows={visibleRows}
+              deleteRow={handleDeleteRow}
+              editRow={handleEditRow}
+            />
+            {/* Pagination  */}
+            <Pagination
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={handlePageChange}
+            />
+            {/* Button Add */}
+            <button onClick={() => setModalOpen(true)} className="btn">
+              Add
+            </button>
+            {/* Modal Add */}
+            {modalOpen && (
+              <Modal
+                closeModal={() => {
+                  setModalOpen(false);
+                  setRowToEdit(null);
+                }}
+                onSubmit={handleSubmit}
+                defaultValue={rowToEdit !== null ? rows[rowToEdit] : null}
+              />
+            )}
+          </div>
+        </div>
+      ) : (
+      <div>
+        <React.Suspense fallback="Loading...">
+          <ViewPeta />
+        </React.Suspense>
       </div>
-      <div className="UserManagement">
-      {/* Search Bar */}
-      <div className="search-container">
-        <input
-          type="text"
-          className="search-input"
-          placeholder="Cari berdasarkan nama..."
-          value={searchInput}
-          onChange={handleSearchChange}
-        />
-      </div>
-      {/* Table */}
-      <Table rows={visibleRows} deleteRow={handleDeleteRow} editRow={handleEditRow} />
-      {/* Pagination  */}
-      <Pagination
-        currentPage={currentPage}
-        totalPages={totalPages}
-        onPageChange={handlePageChange}
-      />
-      {/* Button Add */}
-      <button onClick={() => setModalOpen(true)} className="btn">
-        Add
-      </button>
-      {/* Modal Add */}
-      {modalOpen && (
-        <Modal
-          closeModal={() => {
-            setModalOpen(false);
-            setRowToEdit(null);
-          }}
-          onSubmit={handleSubmit}
-          defaultValue={rowToEdit !== null ? rows[rowToEdit] : null}
-        />
       )}
     </div>
-    </div>
-
   );
 }
 
 export default UserManagement;
-
-
-
-

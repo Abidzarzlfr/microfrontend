@@ -170,9 +170,7 @@ function Peta() {
             {!showUserTable ? (
                 <div>
                     <div ref={mapRef} className="absolute top-0 left-0 right-0 bottom-0" /> 
-                    {/* <div className="absolute right-0 top-0 mt-5 mr-5 space-y-2">
-                        <button onClick={openUserTable} className="bg-blue-800 text-white p-2 rounded m-1 mr-1">User Table</button>
-                    </div> */}
+                    
                     <div className="absolute left-0 bottom-0 mb-5 ml-5 space-y-2">
                         <button onClick={() => startDrawing("LineString")} className="bg-blue-500 text-white p-2 rounded mr-2">Line String</button>
                         <button onClick={() => startDrawing("Polygon")} className="bg-blue-500 text-white p-2 rounded mr-2">Polygon</button>
