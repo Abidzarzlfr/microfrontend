@@ -3,7 +3,7 @@ import "./UserManagement.css";
 import { Table } from "./components/Table.jsx";
 import { Modal } from "./components/Modal.jsx";
 import Pagination from "./components/Pagination.jsx";
-import data from './Assets/data.json';
+import data from './Assets/data';
 
 function UserManagement() {
   const [searchInput, setSearchInput] = useState("");
@@ -23,7 +23,7 @@ function UserManagement() {
     const filtered = rows.filter((row) =>
       row.name.toLowerCase().includes(inputValue)
     );
-    
+
     setFilteredRows(filtered);
     setCurrentPage(1);
   };
@@ -72,7 +72,7 @@ function UserManagement() {
   return (
     <div className="w-full h-full">
       <div className="absolute right-0 top-0 mt-5 mr-5 space-y-2">
-         <button className="bg-blue-800 text-white p-2 rounded m-1 mr-1">User Table</button>
+         <button className="bg-blue-800 text-white p-2 rounded m-1 mr-1">Map</button>
       </div>
       <div className="UserManagement">
       {/* Search Bar */}

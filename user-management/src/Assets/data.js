@@ -1,4 +1,4 @@
-[
+const data = [
     {
       "name": "Abidzar",
       "description": "lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit amet, consectetur",
@@ -54,4 +54,6 @@
       "description": "lorem ipsum dolor sit amet, consectetur lorem ipsum dolor sit amet, consectetur",
       "status": "sakit"
     }
-]
+];
+
+export default data;

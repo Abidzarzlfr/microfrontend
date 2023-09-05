@@ -103,13 +103,13 @@ function Peta() {
         }
     }
 
-    const startDrawing = () => {
+    const startDrawing = (geomType) => {
         if (draw) {
             map.removeInteraction(draw);
         }
         const newDraw = new Draw ({
             source: source,
-            type: 'LineString',
+            type: geomType,
         });
         newDraw.on('drawend', (event) => {
             const coords = event.feature.getGeometry().getCoordinates();
@@ -173,8 +173,12 @@ function Peta() {
                     {/* <div className="absolute right-0 top-0 mt-5 mr-5 space-y-2">
                         <button onClick={openUserTable} className="bg-blue-800 text-white p-2 rounded m-1 mr-1">User Table</button>
                     </div> */}
+                    <div className="absolute left-0 bottom-0 mb-5 ml-5 space-y-2">
+                        <button onClick={() => startDrawing("LineString")} className="bg-blue-500 text-white p-2 rounded mr-2">Line String</button>
+                        <button onClick={() => startDrawing("Polygon")} className="bg-blue-500 text-white p-2 rounded mr-2">Polygon</button>
+                        <button onClick={() => startDrawing("Circle")} className="bg-blue-500 text-white p-2 rounded mr-2">Circle</button>
+                    </div>
                     <div className="absolute right-0 bottom-0 mb-5 mr-5 space-y-2">
-                        <button onClick={startDrawing} className="bg-green-500 text-white p-2 rounded mr-2">Draw</button>
                         <button onClick={stopDrawing} className="bg-red-500 text-white p-2 rounded mr-2">Undraw</button>
                         <button onClick={undoDrawing} className="bg-gray-500 text-white p-2 rounded mr-2">Undo Draw</button>
                         <button onClick={startZoomArea} className="bg-green-500 text-white p-2 rounded mr-2">Zoom Area</button>
